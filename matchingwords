@@ -1,0 +1,111 @@
+// matchingwords.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+void alphSort(vector<string>&);
+void readIn(vector<string>&);
+void matchWords(vector<string>&);
+void printVec(vector<string>&);
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	vector<string> vec;
+	readIn(vec);
+	matchWords(vec);
+	cout<<endl;
+	system("pause");
+	return 0;
+}
+void readIn(vector<string>& funcVec)
+{
+	string input;
+	while(input!="end")
+	{
+		cin>>input;
+		funcVec.push_back(input);
+	}
+}
+void matchWords(vector<string>& funcVec)
+{
+	vector<string> doubVec;
+	for(unsigned int i = 0; i < funcVec.size()-1; i++)
+	{
+		int counter = 1;
+		for(unsigned int k = i+1; k < funcVec.size(); k++)
+		{
+			if(funcVec[i]==funcVec[k])
+			{
+				if(counter == 1){doubVec.push_back(funcVec[i]);counter=0;}
+				funcVec.erase(funcVec.begin()+k);
+			}
+		}
+	}
+	//printVec(doubVec);
+	alphSort(doubVec);
+}
+void alphSort(vector<string>& func3Vec)
+{	
+	for(unsigned int x = 0; x < 1; x++)
+	{
+		int check = 1;
+		while(check == 1)
+		{
+			check = -1;
+			for(unsigned int y = 1; y < func3Vec.size(); y++)
+			{
+				if(func3Vec[y][x] < func3Vec[y-1][x])
+				{
+					string temp = func3Vec[y-1];
+					func3Vec[y-1] = func3Vec[y];
+					func3Vec[y] = temp;
+					check = 1;
+				}
+			}
+		}
+	}
+	int check = 1;
+		while(check == 1)
+		{
+			check = -1;
+			for(unsigned int y = 1; y < func3Vec.size(); y++)
+			{
+				if(func3Vec[y][1] < func3Vec[y-1][1] && func3Vec[y][0] == func3Vec[y-1][0])
+				{
+					string temp = func3Vec[y-1];
+					func3Vec[y-1] = func3Vec[y];
+					func3Vec[y] = temp;
+					check = 1;
+				}
+			}
+		}
+		check = 1;
+		while(check == 1)
+		{
+			check = -1;
+			for(unsigned int y = 1; y < func3Vec.size(); y++)
+			{
+				if(func3Vec[y][2] < func3Vec[y-1][2] && func3Vec[y][0] == func3Vec[y-1][0]
+				       && func3Vec[y][1] == func3Vec[y-1][1])
+				{
+					string temp = func3Vec[y-1];
+					func3Vec[y-1] = func3Vec[y];
+					func3Vec[y] = temp;
+					check = 1;
+				}
+			}
+		}
+	printVec(func3Vec);
+}
+void printVec(vector<string>& funcVec)
+{
+	for(unsigned int u = 0; u < funcVec.size(); u++)
+	{
+		cout<<funcVec[u]<<" ";
+	}
+	cout<<endl;
+}
