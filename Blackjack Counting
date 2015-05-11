@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+using namespace std;
+void blackJ(string);
+int main()
+{
+	vector<string> vec;
+	string current;
+	int s;
+	cin>>s;
+	cin.ignore();
+	for(unsigned int i=0;i<s;i++)
+	{
+		getline(cin, current);
+		vec.push_back(current);
+	}
+	for(unsigned int u=0;u<s;u++)
+	{
+		blackJ(vec[u]);
+	}
+	cout<<endl;
+	return 0;
+}
+void blackJ(string calc)
+{
+	map<char, int> cards;
+	cards['2']=2;
+	cards['3']=3;
+	cards['4']=4;
+	cards['5']=5;
+	cards['6']=6;
+	cards['7']=7;
+	cards['8']=8;
+	cards['9']=9;
+	cards['T']=10;
+	cards['K']=10;
+	cards['Q']=10;
+	cards['J']=10;
+	cards['A']=11;
+	int sum(0);
+	int ace=0;
+	for(int x=0;x<calc.size();x++)
+	{
+		if(calc[x]=='A'){ace++;}
+		sum=sum+cards[calc[x]];
+	}
+	while(ace>0&&sum>21)
+	{
+		sum=sum-10;
+		ace--;
+	}
+	if(sum>21){cout<<"Bust ";}
+	else{cout<<sum<<" ";}
+}
