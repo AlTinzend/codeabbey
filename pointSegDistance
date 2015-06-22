@@ -1,0 +1,73 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+const double PI  =3.141592653589793238463;
+void printVec(vector<double>&);
+double findMethod(double, double, double, double, double, double);
+double pointSeg(double, double, double, double, double, double);
+double pointPoint(double, double, double, double);
+int main()
+{
+	int data;
+	double x1, x2, y1, y2, x0, y0;
+	vector<double> results;
+	cin>>data;
+	cin.ignore();
+	for(unsigned int i = 0; i < data; ++i){
+		cin>>x1>>y1>>x2>>y2>>x0>>y0;
+		results.push_back(findMethod(x1, y1, x2, y2, x0, y0));
+	}
+	printVec(results);
+	system("pause");
+	return 0;
+}
+
+double findMethod(double xa, double ya, double xb, double yb,
+	double xp, double yp){
+	double v11, v12, v1a, v1b, v21, v22, v2a, v2b;
+	double dot1, quot1, theta1, dot2, quot2, theta2, angle1, angle2; 
+	v11 = xb - xa;
+	v12 = yb - ya;
+	v1a = xp - xa;
+	v1b = yp - ya;
+	v21 = xa - xb;
+	v22 = ya - yb;
+	v2a = xp - xb;
+	v2b = yp - yb;
+	dot1 = v11*v1a + v12*v1b; 
+	dot2 = v21*v2a + v22*v2b; 
+	quot1 = (sqrt(v11*v11 + v12*v12)) * (sqrt(v1a*v1a + v1b*v1b));
+	quot2 = (sqrt(v21*v21 + v22*v22)) * (sqrt(v2a*v2a + v2b*v2b));
+	theta1 = acos(dot1/quot1);
+	theta2 = acos(dot2/quot2);
+	angle1 = (theta1/PI)*180;
+	angle2 = (theta2/PI)*180;
+	if(angle1 > 90 && angle1 < 270){return (pointPoint(xa, ya, xp, yp));}
+	else if(angle2 > 90 && angle2 < 270){return (pointPoint(xb, yb, xp, yp));}
+	else{return (pointSeg(xa, ya, xb, yb, xp, yp));}
+}
+
+double pointSeg(double xa, double ya, double xb, double yb,
+	double xp, double yp){
+	double m, A, B, C, num, denom; 
+	m = (yb - ya)/(xb - xa);
+	A = m*(-1);
+	B = 1;
+	C = m*xa - ya;
+	num = abs((A*xp)+(B*yp)+C);
+	denom = sqrt(pow(A, 2.0)+ 1.0);
+	return num/denom;
+}
+
+double pointPoint(double xa, double ya, double xb, double yb){
+	double x = sqrt(pow((xb-xa), 2.0) + pow((yb-ya), 2.0));
+	return x;
+}
+
+void printVec(vector<double>& vec){
+	for(unsigned int i = 0; i < vec.size(); ++i)
+		cout<<setprecision(12)<<vec[i]<<" ";
+}
