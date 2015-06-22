@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+using namespace std;
+void fillVector(vector<string>&);
+void findAnagram(string);
+
+
+int main()
+{
+	vector<string> vec;
+	fillVector(vec);
+	for(unsigned int i = 0; i < vec.size(); ++i){
+		findAnagram(vec[i]);
+	}
+	
+	cout<<endl;
+	system("pause");
+	return 0;
+}
+void fillVector(vector<string>& vec1){
+	int x;
+	string tword;
+	cin>>x;
+	cin.ignore();
+	for(unsigned int i = 0; i < x; ++i){
+		getline(cin, tword);
+		vec1.push_back(tword);
+	}
+}
+void findAnagram(string tword){
+	string word;
+	int w2 = 0;
+	for(int j = 0; j < tword.size(); ++j){w2 += tword[j];}
+	int count = 0;
+	ifstream testfile;
+	testfile.open ("words.txt");
+	while(getline(testfile, word)){
+		if(word != tword && word.size() == tword.size()){
+			int w1 = 0;
+			for(int i = 0; i < word.size(); ++i){w1 += word[i];}
+			if(w2 == w1){
+				string tempword = word;
+				int checked = 0;
+					for(int k = 0; k < tword.size(); ++k){
+						for(int h = 0; h < tempword.size(); ++h){
+							if(tword[k] == tempword[h]){
+								checked++;
+								tempword.erase(h, 1);
+							}
+						}
+					}
+				
+				if(checked == tword.size()){count++;}
+			}
+		}
+	}
+	testfile.close();
+	cout<<count<<" ";
+}
