@@ -1,0 +1,36 @@
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <cmath>
+using namespace std;
+void binaryCalc(double, double, double, double, double, double);
+vector<double> answers;
+void printVec(vector<double>&);
+int main()
+{
+	int data;
+	double a, b, c, d;
+	cin>>data;
+	cin.ignore();
+	for(int i = 0; i < data; ++i){
+		cin>>a>>b>>c>>d;
+		binaryCalc(a, b, c, d, 0.0, 100.0);
+	}
+	printVec(answers);
+	cout<<endl;
+	system("pause");
+	return 0;
+}
+void binaryCalc(double a, double b, double c, double d, double range1, double range2)
+{	
+	    double x, y;
+		x=(range1 + range2)/2;
+		y= a * x + b * sqrt(pow(x, 3.0)) - c * exp((x * (-1))/50.0);
+		if(abs(y - d) < 0.000000000001){answers.push_back(x);}
+		else if(y > d){binaryCalc(a, b, c, d, range1, x);}
+		else if(y < d){binaryCalc(a, b, c, d, x, range2);}
+}
+void printVec(vector<double>& funcVec){
+	for(unsigned int i=0;i<funcVec.size();i++){cout<<setprecision(13)<<funcVec[i]<<" ";}
+	cout<<endl;
+}
