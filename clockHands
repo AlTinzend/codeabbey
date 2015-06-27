@@ -1,0 +1,45 @@
+//clockHands
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <iomanip>
+const double PI  = 3.141592653589793238463;
+using namespace std;
+void findCoords(string);
+
+
+int main()
+{
+   vector<string> vec;
+   int data;
+   string time;  
+   cin>>data;
+   cin.ignore();
+   for(int i = 0; i < data; ++i){
+      cin>>time;
+      vec.push_back(time);
+   }
+   for(int j = 0; j < data; ++j){
+      findCoords(vec[j]); 
+   }
+   cout<<endl;
+   system("pause");
+   return 0;
+}
+void findCoords(string st){
+    int h1, h2(0), m1, m2;
+	double hour, minutes, hourx, houry, minx, miny;
+	m1 = st[st.size()-1] - 48;
+	m2 = (st[st.size()-2] - 48) * 10;
+	h1 = st[st.size()-4] - 48;
+	if(st.size() == 5){h2 = (st[st.size()-5] - 48) * 10;}
+	minutes = m1 + m2;
+	hour = ((h1 + h2)%12)*30 + minutes/2;
+	minutes = (minutes/60.0) * 360.0;
+	hourx = 6* cos((hour*PI)/180) + 10.0;
+	houry = 6* sin((hour*PI)/180) + 10.0;
+	minx = 9* cos((minutes*PI)/180) + 10.0;
+	miny = 9* sin((minutes*PI)/180) + 10.0;
+	cout<<setprecision(13)<<houry<<" "<<hourx<<" "<<miny<<" "<<minx<<" ";
+}
