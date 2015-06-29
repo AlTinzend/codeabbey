@@ -1,0 +1,45 @@
+#include <SFML/Network.hpp>
+#include <sstream>
+#include <iostream>
+#include <string>
+using namespace std;
+string sendRequest(string);
+
+int main()
+{
+	string response, data;
+	string data = "token=WmfSbVfj1MRX9rwIVvZ2Wjgx";
+	string manip = sendRequest(data);
+	int g = manip.size()-3;
+	int h = g - 1;
+	cout<<manip;
+	int last = int(manip[g])-48;
+	int slast = int(manip[h])-48;
+	int answer = 100 - (slast*10 + last);
+	char dig1 = (answer/10)+48;
+	char dig2 = (answer%10)+48;
+	response.push_back(dig1);
+	response.push_back(dig2);
+	data = data + "&" + "answer=" + response;
+	cout<<data<<"\n";
+	cout<<sendRequest(data);
+	cout<<endl;
+	system("pause");
+	return 0;
+}
+string sendRequest(string message){
+	sf::Http::Request request("/say-100.php", sf::Http::Request::Post);
+	ostringstream stream;
+	stream << message;
+	request.setBody(stream.str());
+	sf::Http http("http://codeabbey.sourceforge.net/");
+	sf::Http::Response response = http.sendRequest(request);
+	 if (response.getStatus() == sf::Http::Response::Ok)
+     {
+		 return response.getBody();
+     }
+     else
+     {
+         cout << "request failed" << std::endl;
+     }
+}
